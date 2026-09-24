@@ -1,15 +1,24 @@
-# macOS
+# Betriebssystem
 .DS_Store
 .AppleDouble
 .LSOverride
+Thumbs.db
 
-# Secrets / Tokens -- NIEMALS committen
+# Laufzeit-Protokolle der Skripte (können Benutzernamen enthalten)
+logs/
+*.log
+*.tmp
+
+# Zugangsdaten, Token, Zertifikate: niemals committen
+.env
 *.token
 *.secret
-.env
-secrets/
 *-token.txt
+*.pfx
+*.cer
+*.pem
+secrets/
 
-# PowerShell temporaer
-*.tmp
-*.log
+# Echte Mitarbeiterlisten nie hochladen, nur die Beispieldatei
+*.csv
+!04-jml/beispiel-mitarbeiter.csv

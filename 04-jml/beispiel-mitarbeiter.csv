@@ -1,0 +1,4 @@
+Vorname,Nachname,UPN,Abteilung,Manager,Lizenz,Gruppen,Aktion
+Anna,Beispiel,anna.beispiel@mdmcooperation111.onmicrosoft.com,Vertrieb,,SPB,GRP-INTUNE-PILOT-USERS,Joiner
+Jonas,Muster,jonas.muster@mdmcooperation111.onmicrosoft.com,Marketing,,SPB,GRP-INTUNE-PILOT-USERS,Mover
+Lena,Test,lena.test@mdmcooperation111.onmicrosoft.com,Einkauf,,SPB,,Leaver

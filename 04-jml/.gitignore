@@ -1,0 +1,15 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Secrets / Tokens -- NIEMALS committen
+*.token
+*.secret
+.env
+secrets/
+*-token.txt
+
+# PowerShell temporaer
+*.tmp
+*.log
