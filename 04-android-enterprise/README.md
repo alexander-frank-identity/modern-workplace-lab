@@ -1,4 +1,4 @@
-# 05 – Android Enterprise
+# 04 – Android Enterprise
 
 Im Mittelstand kommen zwei Arten von Android-Geräten nebeneinander vor, und sie unterscheiden sich in einem Punkt grundlegend: **Hat das Gerät einen Benutzer oder nicht?**
 
@@ -101,15 +101,6 @@ Logistik und Lager (Scanner), Handel (Beratungsterminals), Pflege und Werkstatt 
 
 ---
 
-## A – Gerät mit Benutzer (offen)
+## A – Gerät mit Benutzer
 
-Noch nicht gebaut, auch Conditional Access für Android habe ich nicht konfiguriert. Geplant:
-
-| Punkt | Plan |
-|---|---|
-| Registrierungsart | Work Profile (privates Gerät) und Fully Managed (Firmengerät) |
-| Compliance | Sperrbildschirm, Mindestversion, Verschlüsselung |
-| Conditional Access | dieselbe Richtlinie wie in [03](../03-compliance-ca/): Zugriff nur von konformen Geräten |
-| App-Schutz | Outlook und Teams mit App Protection Policy für BYOD |
-
-Wichtigster Nachweis: Das Gerät wird absichtlich nicht konform gemacht (z. B. Sperrbildschirm entfernt), und Outlook verweigert daraufhin den Zugriff.
+Nicht Teil dieses Labs. Geräte mit Benutzer (Work Profile, Fully Managed) mit Compliance und Conditional Access kommen als nächste Ausbaustufe dazu.

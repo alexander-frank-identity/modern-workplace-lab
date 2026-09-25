@@ -65,7 +65,7 @@ Bewusst klein gehalten, damit die Kette Gerät → Compliance → CA zuerst funk
 
 Beide Richtlinien liefen im Modus **„Nur Bericht“**. So sieht man im Anmeldeprotokoll, was sie bewirken würden, ohne jemanden auszusperren. Scharf geschaltet und mit Notfallkonto abgesichert habe ich sie in diesem Mandanten nicht mehr.
 
-Der Testmandant ist inzwischen geschlossen, Screenshots der CA-Richtlinien gibt es daraus nicht. Für den nächsten Durchlauf gilt das Namensschema aus dem [Haupt-README](../README.md#namenskonventionen), z. B. `CA01-MFA-AlleBenutzer`.
+Der Testmandant ist inzwischen geschlossen, Screenshots der CA-Richtlinien gibt es daraus nicht. Im nächsten Durchlauf bekommen die Richtlinien sprechende Namen nach dem Schema `CA<Nr>-<Wirkung>-<Zielgruppe>`, z. B. `CA01-MFA-AlleBenutzer`.
 
 ## Rollout-Verfahren
 

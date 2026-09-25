@@ -29,7 +29,7 @@ Das Ziel ist das Gegenteil: Das Gerät tritt Entra ID bei, landet automatisch in
 | `GRP-INTUNE-PILOT-DEVICES` | Geräte | Ziel des Autopilot-Profils |
 | `GRP-INTUNE-WINDOWS-STANDARD` | Geräte | Standard-Konfiguration und Compliance für Windows |
 
-Getrennte Benutzer- und Gerätegruppen sind kein Selbstzweck. Autopilot-Profile und viele Gerätekonfigurationen greifen nur zuverlässig, wenn sie an Geräte zugewiesen sind. Bei den Android-Kiosk-Geräten in [05](../05-android-enterprise/) bin ich genau darüber gestolpert.
+Getrennte Benutzer- und Gerätegruppen sind kein Selbstzweck. Autopilot-Profile und viele Gerätekonfigurationen greifen nur zuverlässig, wenn sie an Geräte zugewiesen sind. Bei den Android-Kiosk-Geräten in [04](../04-android-enterprise/) bin ich genau darüber gestolpert.
 
 **Autopilot-Profil `AP_WIN11_KMU_USERDRIVEN_BASELINE`**
 

@@ -21,4 +21,4 @@ secrets/
 
 # Echte Mitarbeiterlisten nie hochladen, nur die Beispieldatei
 *.csv
-!04-jml/beispiel-mitarbeiter.csv
+!01-jml/beispiel-mitarbeiter.csv

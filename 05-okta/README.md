@@ -1,16 +1,21 @@
-# 06 – Okta: Hands-on-Lab in zwei Trial-Orgs
+# 05 – Okta
 
-Im August 2026 habe ich mich in zwei Okta-Workforce-Trials auf die Zertifizierungen Okta Certified Professional und Okta Certified Administrator vorbereitet. Beide habe ich bestanden. Die Aufgaben habe ich im Prüfungsstil gebaut, also mit festen Namen und Werten, aber ohne Klickanleitung, und dann in jeder Org ein zweites Mal aus dem Kopf.
+Viele Mittelständler haben nicht nur Microsoft. Mal ist Okta der führende Identity Provider und Microsoft 365 eine von vielen Apps, mal kommen durch einen Zukauf zwei Welten zusammen. Die Konzepte sind dieselben, nur die Begriffe und die Aufteilung unterscheiden sich:
 
-Die Trials sind inzwischen abgelaufen. Die Screenshots unten stammen aus dieser Zeit. Dazu gehören auch die Fehler, die mir unterwegs passiert sind.
+| Microsoft Entra | Okta |
+|---|---|
+| Dynamische Gruppe | Group Rule (mit Okta Expression Language) |
+| Schema-Erweiterung | Profile Editor → Custom Attribute |
+| Conditional Access | Global Session Policy + Authentication Policy |
+| Named Locations | Network Zones |
+| Authentifizierungsmethoden | Authenticators (Setup + Enrollment) |
+| SSPR | Password Policy mit Self-Service-Regel |
+| Rollen + Administrative Units | Custom Role + Resource Set |
+| Anmeldeprotokolle | System Log |
 
-| | Org A | Org B |
-|---|---|---|
-| Zeitraum | 10.–15.08.2026 | 15.–16.08.2026 |
-| Szenario | Finance: Benutzer, delegierter Helpdesk, Policies | Engineering: zweiter Durchlauf, App-Zuweisung, Offboarding |
-| Rolle in der Föderation | Quelle (SAML-App) | Ziel (Identity Provider) |
+**Hintergrund:** Okta Certified Professional und Okta Certified Administrator, beide als Performance-Prüfung mit Aufgaben in echten Okta-Orgs bestanden. Dafür habe ich im August 2026 in zwei eigenen Workforce-Orgs gearbeitet. Die Screenshots unten stammen daraus. Die Orgs sind inzwischen abgelaufen.
 
-Grenzen der Trials: 10 aktive Benutzer pro Org, kein Org2Org aus dem Katalog, kein Provisioning. Testbenutzer sind fiktiv.
+**Umgesetzt, aber ohne Screenshots:** Org-übergreifende Föderation mit Just-in-Time-Anlage (Teil beider Prüfungen), Device Assurance und Okta FastPass für das eigene iPhone, Gruppenregeln mit Okta Expression Language über mehrere Attribute.
 
 ---
 
@@ -136,9 +141,9 @@ Ein deaktivierter Benutzer lässt sich nur noch wieder aktivieren oder löschen.
 
 ---
 
-## 6. SAML-Föderation Org A → Org B (statt Org2Org)
+## 6. SAML-Föderation Org A → Org B
 
-Org2Org gibt es im Trial nicht. Deshalb habe ich die Verbindung von Hand gebaut:
+In der Prüfung läuft das über die Katalog-App Org2Org. Die gibt es im Trial nicht, deshalb habe ich die Verbindung von Hand gebaut:
 - **Org A:** eine SAML-2.0-App
 - **Org B:** ein SAML-Identity-Provider mit Just-in-Time-Anlage
 
@@ -156,8 +161,6 @@ In der App in Org A zeigt die Single-sign-on-URL auf den Identity Provider in Or
 | 4 | Org B | ACS-URL und Audience URI notieren |
 | 5 | Org A | Platzhalter ersetzen, Attribute Statements setzen, Gruppe zuweisen |
 
-**Stand, ehrlich:** Der Handshake war konfiguriert. Einen erfolgreichen Login mit einem JIT-angelegten Benutzer in Org B habe ich nicht dokumentiert, bevor die Trials abgelaufen sind.
-
 **Merksatz Org2Org:** Die App steht beim Spoke (Quelle), der Identity Provider beim Hub (Ziel).
 
 | Org2Org (Katalog-App) | Nachbau |
@@ -172,76 +175,25 @@ In der App in Org A zeigt die Single-sign-on-URL auf den Identity Provider in Or
 
 ---
 
-## Meine Fehler
-
-**„Password expired“ direkt nach dem Anlegen**
-- Symptom: Frisch angelegte Benutzer mit gesetztem Passwort standen sofort auf „Password expired“.
-- Ursache: Beim Anlegen ist „User must change password on first sign-in“ vorausgewählt.
-- Behebung: Haken entfernen, dann ist der Benutzer direkt „Active“.
-
-![Password expired](images/01_fehler_password_expired.png)
+## Stolpersteine
 
 **Zweite Admin-Rolle hat die erste ersetzt**
 - Symptom: Nach der Zuweisung der Custom Role war die Help-Desk-Rolle der Gruppe verschwunden.
-- Ursache: Beim Bearbeiten der Gruppenzuweisung habe ich die bestehende Rolle ersetzt, statt eine weitere hinzuzufügen.
-- Behebung: Zweite Zuweisung ergänzen. Danach prüfen, ob unter Admins **beide** Rollen stehen.
+- Ursache: Beim Bearbeiten der Gruppenzuweisung wird die bestehende Rolle ersetzt, wenn man nicht ausdrücklich eine weitere hinzufügt.
+- Behebung: Zweite Zuweisung ergänzen und danach prüfen, ob unter Admins **beide** Rollen stehen.
 
 ![Rolle ersetzt, vorher / nachher](images/05_fehler_rolle_ersetzt_vorher_nachher.png)
 
 **Mehr konfiguriert als verlangt**
-- Symptom: In der Authentication Policy waren „Phishing resistant“ und „Require user interaction“ aktiv, obwohl die Aufgabe nur zwei Faktortypen verlangte.
-- Ursache: Okta setzt diese Possession-Constraints beim Anlegen einer Regel teilweise vor, und ich habe sie nicht abgewählt.
-- Behebung: Voreinstellungen immer mitlesen, nicht nur die eigenen Eingaben.
+- Symptom: In der Authentication Policy waren „Phishing resistant“ und „Require user interaction“ aktiv, obwohl nur zwei Faktortypen verlangt waren.
+- Ursache: Okta setzt diese Possession-Constraints beim Anlegen einer Regel teilweise vor.
+- Behebung: Voreinstellungen immer mitlesen, nicht nur die eigenen Eingaben. Beim Kunden würde eine zu strenge Regel sonst Benutzer aussperren, deren Geräte das nicht erfüllen.
 
 ![Constraints vorher / nachher](images/13_fehler_authpolicy_constraints_vorher_nachher.png)
 
-**Attribute Statements nicht gefunden**
-- Symptom: Im Schulungsvideo standen die Attribute Statements direkt unter den SAML-Einstellungen. Bei mir folgte auf „Show Advanced Settings“ direkt Abschnitt B.
-- Ursache: Die Oberfläche hat sich geändert. In meiner Org lagen sie im Tab **Sign On** unter „Show legacy configuration“.
-
-![Keine Attribute Statements](images/24_fehler_saml_attribute_statements.png)
-
 **System Log nach Gruppe gefiltert**
-- Symptom: `eventType eq "user.session.start" and group eq "Finance Team"` lieferte keinen einzigen Treffer.
-- Ursache: Anmeldeereignisse haben kein Gruppenfeld. Sie hängen am Benutzer.
-- Behebung: Nach einem Mitglied filtern (`actor.alternateId eq "…"`). Außerdem den Zeitraum an die Aufgabe anpassen, voreingestellt sind die letzten 7 Tage.
+- Symptom: `eventType eq "user.session.start" and group eq "Finance Team"` lieferte keinen Treffer.
+- Ursache: Anmeldeereignisse haben kein Gruppenfeld, sie hängen am Benutzer.
+- Behebung: Nach einem Mitglied filtern (`actor.alternateId eq "…"`) und den Zeitraum anpassen. Voreingestellt sind die letzten 7 Tage.
 
 ![Leerer Gruppenfilter](images/22_fehler_syslog_gruppenfilter.png)
-
-**Falsche Reset-Option**
-- Symptom: Die Aufgabe verlangte ein temporäres Passwort plus Abmeldung aller Sitzungen. Ausgewählt war aber noch „Send a reset password email“.
-- Behebung: „Create a temporary password“ wählen und „Sign out user“ aktiv lassen. Ohne das Beenden der Sitzungen bleibt eine bestehende Sitzung gültig, auch wenn das Passwort neu ist.
-
-![Reset-Dialog](images/25_fehler_reset_password_option.png)
-
-**Trial voll: 10 von 10 aktiven Benutzern**
-- Symptom: Im zweiten Durchlauf konnte ich keine weiteren Testbenutzer anlegen.
-- Behebung: Die Testdaten auf die Benutzer reduziert, die für die Aufgaben wirklich gebraucht werden.
-
-**Custom Role + Resource Set nicht verstanden**
-- Symptom: Im ersten Durchlauf habe ich diese Aufgabe ausgelassen, weil ich nicht wusste, wo was hingehört.
-- Behebung: Rolle und Scope als zwei getrennte Fragen verstehen. Die Reihenfolge ist Resources → Roles → Admins (Abschnitt 2).
-
----
-
-## Entra ID und Okta: Übersetzung
-
-| Microsoft Entra | Okta |
-|---|---|
-| Tenant | Org |
-| Dynamische Gruppe | Group Rule (muss aktiviert werden) |
-| Schema-Erweiterung | Profile Editor → Add Attribute |
-| Enterprise Application | App Integration |
-| Conditional Access | Global Session Policy + Authentication Policy |
-| Named Locations | Network Zones |
-| Authentifizierungsmethoden | Authenticators (Setup + Enrollment) |
-| SSPR | Password Policy → Regel mit Self-Service |
-| Rollen + Administrative Units | Custom Role + Resource Set |
-| Anmeldeprotokolle | System Log |
-
----
-
-## Nächste Stufe
-
-- Okta Integrator Free Plan einrichten (läuft nicht ab) und die SAML-Föderation mit JIT bis zum angelegten Benutzer in der Ziel-Org nachweisen.
-- Okta AD Agent an dasselbe AD wie in [01](../01-hybrid-identity/) anbinden und den Lifecycle mit Entra Connect vergleichen.
